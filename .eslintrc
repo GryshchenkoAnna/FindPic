@@ -1,8 +1,6 @@
 {
   "extends": [
-    "airbnb",
-    "prettier",
-    "plugin:prettier/recommended",
+    "standard"
   ],
   "plugins": ["prettier"],
   "parser": "babel-eslint",
@@ -16,10 +14,8 @@
     "node": true
   },
   "rules": {
-    "jsx-a11y/label-has-for": [2, {
-      "required": {
-        "every": ["id"]
-      }
+    "semi": ["error", "always", {
+      "omitLastInOneLineBlock": true
     }]
   }
 }
