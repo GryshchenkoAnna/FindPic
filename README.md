@@ -1,1 +1,1 @@
-# FindPic
+# GoIt Project FindPic
