@@ -1,6 +1,8 @@
 class Button {
-  constructor() {
+  constructor(className, id) {
     this.form = document.querySelector('.form');
+    this.className = className;
+    this.id = id;
     // this.initApp = this.init();
   }
 

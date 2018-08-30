@@ -1,6 +1,6 @@
 class Favorits {
     constructor() {
-        this.root = document.querySelector('#root');
+        this.header = document.querySelector('.header');
     }
 
     createFavorits(name, type, className) {
@@ -9,7 +9,7 @@ class Favorits {
         button.textContent = name;
         button.setAttribute("type", type);
     
-        this.root.append(button);
+        this.header.append(button);
     
         return button;
       }
