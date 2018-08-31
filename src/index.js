@@ -1,7 +1,13 @@
 import Favorite from './Components/favorite';
 // import '../node_modules/normalize.css/normalize.css';
 import './styles.css';
-// import './scss/pictures-list-item.scss';
+import Button from './Components/button';
+
+const buttonSearch = new Button();
+const buttonFavorites = new Button();
+
+buttonSearch.createButton('search', 'submit', 'button-search');
+buttonFavorites.createButton('Favorits', 'button', 'button-favorits');
 
 class App {
   constructor (parentNode) {
