@@ -82,3 +82,8 @@ img {
   font-size: 20px;
   margin-right: 4px;
 }
+
+a {
+  display: block;
+  text-decoration: none;
+}
