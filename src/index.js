@@ -1,6 +1,18 @@
 import Favorite from './Components/favorite';
 // import 'normalize.css';
 import './styles.css';
+import './components/button';
+import Button from './components/button';
+
+
+
+const buttonSearch = new Button();
+const buttonFavorites = new Button();
+
+
+buttonSearch.createButton("search", "submit", "button-search");
+buttonFavorites.createButton("Favorits", "button", "button-favorits");
+
 
 class App extends Favorite {
   constructor (parentNode) {
@@ -16,5 +28,6 @@ class App extends Favorite {
     this.setParentNode(this.root);
   }
 }
-// eslint-disable-next-line
+
 new App(document.querySelector('#root'));
+
