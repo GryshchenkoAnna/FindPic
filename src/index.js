@@ -1,19 +1,24 @@
 import Favorite from './Components/favorite';
-// import 'normalize.css';
+// import '../node_modules/normalize.css/normalize.css';
 import './styles.css';
+// import './scss/pictures-list-item.scss';
 
-class App extends Favorite {
+class App {
   constructor (parentNode) {
-    super({
-      parentNode
-    });
-    this.root = document.querySelector('#root');
-    // this.init = this.this.init();
+    // TODO:
+    // fav MVC
+    // this.favModule = new FavModule();
+    // this.favView = new FavView();
+    // in method call const initFav = new FavCtrl(this.favModule, this.favView);
+
+    this.favorite = null;
+    this.root = document.getElementById('root');
+    this.init();
   }
 
   init () {
-    console.log('app work Init');
-    this.setParentNode(this.root);
+    console.log(this.root);
+    this.favorite = new Favorite(this.root);
   }
 }
 // eslint-disable-next-line

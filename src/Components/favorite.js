@@ -1,14 +1,7 @@
-// import FavCtrl from '../Controller/favoriteCtrl';
-// import FavModel from '../Model/favoriteModel';
-// import FavView from '../View/favoriteView';
-
-// const favModel = new FavModel();
-// const favView = new FavView();
-
-// export const Favorite = new FavCtrl(favModel, favView);
-
 //= =========
 import * as pexels from '../services/api';
+import PictureItem from './pictures-list-item';
+import Button from './shared-ui/button';
 
 export default class Favorite {
   constructor ({
@@ -21,12 +14,8 @@ export default class Favorite {
     this.favTitle = document.createElement('h2');
     this.favList = document.createElement('ul');
     this.photoData = null;
+    this.isActiveCloseBtn = true;
     this.getMarkup();
-  }
-
-  setParentNode (node) {
-    console.log(node);
-    return node;
   }
 
   getMarkup () {
@@ -42,14 +31,15 @@ export default class Favorite {
     this.createListItems();
     this.favWrap.insertAdjacentElement('beforeend', this.favList);
     console.log(this.favWrap);
-    this.parentNode.insertAdjacentElement('beforeend', this.favWrap);
+    console.log('pN createmark: ', this.parentNode);
+    this.parentNode.append(this.favWrap);
   }
 
   createListItems () {
     this.pictures.map(id => {
       pexels.getPhoto(id, this.photoData)
         .then(resolve => this.addFetchingData(resolve.data))
-        .then(resolve => this.itemsMarkup(resolve, true));
+        .then(resolve => this.itemsMarkup(resolve, this.isActiveCloseBtn));
     });
   }
 
@@ -63,13 +53,7 @@ export default class Favorite {
 
   itemsMarkup (data, isActive) {
     this.favList.insertAdjacentHTML('beforeend',
-      `<li data-id=${data.id}>
-        <div>
-          <img src="${data.src.tiny}" alt="${data.photographer}" />
-          ${isActive ? `<button />` : null}
-        </div>
-      </li>
-      `
+      PictureItem(data, isActive, Button('card__btn--close', 'X', 'button', 'remove-image'))
     );
   };
 }
