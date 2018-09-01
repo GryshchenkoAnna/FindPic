@@ -1,11 +1,10 @@
-//= =========
 import * as pexels from '../services/api';
 import PictureItem from './pictures-list-item';
 import Button from './shared-ui/button';
 
 export default class Favorite {
   constructor ({
-    pictures = [461198, 54455, 5938, 5317],
+    pictures = [461198],
     parentNode
   }) {
     this.parentNode = parentNode;
@@ -16,6 +15,11 @@ export default class Favorite {
     this.photoData = null;
     this.isActiveCloseBtn = true;
     this.getMarkup();
+  }
+
+  setPictures (data) {
+    const prevStatePictures = this.pictures;
+    this.pictures = [...data, ...prevStatePictures];
   }
 
   getMarkup () {
@@ -29,10 +33,10 @@ export default class Favorite {
     this.favList.classList.add('favorite__list');
 
     this.createListItems();
+
     this.favWrap.insertAdjacentElement('beforeend', this.favList);
-    console.log(this.favWrap);
-    console.log('pN createmark: ', this.parentNode);
-    this.parentNode.append(this.favWrap);
+
+    return this.favWrap;
   }
 
   createListItems () {
@@ -53,7 +57,7 @@ export default class Favorite {
 
   itemsMarkup (data, isActive) {
     this.favList.insertAdjacentHTML('beforeend',
-      PictureItem(data, isActive, Button('card__btn--close', 'X', 'button', 'remove-image'))
+      PictureItem(data, isActive, Button('card__btn btn-close', 'X', 'button', 'remove-image'))
     );
   };
 }

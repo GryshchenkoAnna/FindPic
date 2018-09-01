@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   entry: ['@babel/polyfill', './src/index.js'],
@@ -60,7 +61,8 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: 'styles.css'
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin()
   ],
   devServer: {
     historyApiFallback: true,
@@ -69,6 +71,7 @@ module.exports = {
     stats: 'errors-only',
     clientLogLevel: 'warning',
     compress: true,
-    port: 9001
+    port: 9001,
+    hot: true
   }
 };
