@@ -1,6 +1,6 @@
 class Button {
-  constructor(className, callback, id, type, name) {
-    this.form = document.querySelector('.form');
+  constructor (className, callback, id, type, name) {
+    this.form = document.querySelector('.js-search-form');
     this.className = className;
     this.id = id;
     this.type = type;
@@ -12,11 +12,11 @@ class Button {
   //   this.createButton();
   // };
 
-  createButton(name, type, className) {
+  createButton (name, type, className) {
     const button = document.createElement('button');
     button.classList.add(className);
     button.textContent = name;
-    button.setAttribute("type", type);
+    button.setAttribute('type', type);
 
     this.form.append(button);
 
