@@ -22,6 +22,7 @@ export default class View extends EventEmitter {
     this.modal = document.createElement('div');
 
     this.haveIdInFavorite = null;
+    this.isActiveRemoveBtn = false;
 
     this.form.addEventListener('submit', evt => this.handleQuerySearch(evt));
   }
@@ -32,19 +33,22 @@ export default class View extends EventEmitter {
     if (this.content.contains(this.favWrap)) {
       this.content.removeChild(this.favWrap);
     }
-    // if (this.pictures.hasChildNodes(this.picturesList)) {
-    //   this.picturesList.removeEventListener('click', evt => this.handleClickOnPicture(evt));
-    // }
 
-    this.resetPictures();
-    this.resetPicturesList();
+    this.pictures.classList.add('pictures');
+    this.picturesList.classList.add('pictures__list');
+    this.pictures.insertAdjacentElement('afterbegin', this.picturesList);
 
-    this.picturesListMarkup();
+    this.content.insertAdjacentElement('beforeend', this.pictures);
 
     if (pictures.total_results === 0) {
       this.resetPictures();
-      this.picturesListMarkup();
+
       this.picturesList.insertAdjacentElement('beforeend', this.notFound());
+      this.pictures.classList.add('pictures');
+      this.picturesList.classList.add('pictures__list');
+      this.pictures.insertAdjacentElement('afterbegin', this.picturesList);
+
+      this.content.insertAdjacentElement('beforeend', this.pictures);
     }
 
     this.form.reset();
@@ -76,6 +80,7 @@ export default class View extends EventEmitter {
         dataSet: null
       });
 
+      loadMore.addEventListener('click', evt => this.handleLoadMore(evt));
       this.pictures.insertAdjacentElement('beforeend', loadMore);
     }
   }
@@ -154,12 +159,8 @@ export default class View extends EventEmitter {
     this.root.insertAdjacentElement('beforeend', this.content);
   }
 
-  picturesListMarkup () {
-    this.pictures.classList.add('pictures');
-    this.picturesList.classList.add('pictures__list');
-    this.pictures.insertAdjacentElement('afterbegin', this.picturesList);
-
-    this.content.insertAdjacentElement('beforeend', this.pictures);
+  loadMorePictures (data) {
+    data.forEach(picture => this.picturesList.insertAdjacentElement('beforeend', this.createPicturesListItem(picture)));
   }
 
   createPicturesListItem (data) {
@@ -170,7 +171,7 @@ export default class View extends EventEmitter {
     const card = document.createElement('div');
     card.classList.add('card');
 
-    if (this.isActiveCloseBtn) {
+    if (this.isActiveRemoveBtn) {
       const removeBtn = Button({
         className: 'card__btn',
         children: 'X',
@@ -197,20 +198,22 @@ export default class View extends EventEmitter {
   }
 
   openFavorite (data) {
+    console.log('income data open modal: ', data);
     this.root.parentNode.classList.add('active');
 
     if (this.content.hasChildNodes(this.pictures)) {
       this.content.removeChild(this.pictures);
     }
 
+    this.favList.innerHTML = '';
+    this.favWrap.innerHTML = '';
     const havePicture = data.length === 0;
 
-    this.favoriteMarkup(havePicture);
+    this.favoriteMarkup(havePicture, data);
   }
 
-  favoriteMarkup (checkData) {
-    this.resetFavoriteView();
-    this.resetPicturesList();
+  favoriteMarkup (checkData, data) {
+    console.log('income data favorite markup: ', data);
 
     this.favWrap.classList.add('favorite__wrapper', 'favorite');
 
@@ -226,6 +229,9 @@ export default class View extends EventEmitter {
       text.textContent = 'You nothing added to favorite';
       this.favWrap.insertAdjacentElement('beforeend', text);
       this.content.insertAdjacentElement('beforeend', this.favWrap);
+    }
+    if (!checkData) {
+      data.forEach(picture => this.favList.insertAdjacentElement('afterbegin', this.createPicturesListItem(picture)));
     }
 
     // this.createPicturesListItem(data);
@@ -260,8 +266,6 @@ export default class View extends EventEmitter {
     const control = document.createElement('div');
     control.classList.add('modal__control');
 
-    console.log(Icon);
-    console.log(Icon('star'));
     const btnPreviousPicture = Button({
       className: 'control__btn--prev',
       children: Icon('navigate_before', 'btn-prev'),
@@ -296,12 +300,10 @@ export default class View extends EventEmitter {
 
     this.emit('checkIdHaveInFavorite', id);
 
-    console.log('before check: ', btnAddToFavorite);
-
     if (this.haveIdInFavorite) {
-      btnAddToFavorite.classList.add('active-fav');
-      console.log('after check: ', btnAddToFavorite);
+      btnAddToFavorite.firstChild.classList.add('active-fav');
     }
+
     btnCloseModal.addEventListener('click', evt => this.handleCloseModal(evt));
     btnAddToFavorite.addEventListener('click', evt => this.handleAddToFavorite(evt));
 
@@ -314,14 +316,8 @@ export default class View extends EventEmitter {
   }
 
   resultCheckIdInFavorite (result) {
+    console.log(result);
     this.haveIdInFavorite = result;
-  }
-
-  setActiveFavBtnInModal (result) {
-    if (result) {
-      console.log(this.modal.closest('.btn.close'));
-      console.log('add succeful');
-    }
   }
 
   appendEventListnersRemove (item) {
@@ -337,8 +333,11 @@ export default class View extends EventEmitter {
     } = this.input;
 
     if (value === '') return;
+    this.resetPictures();
+    this.resetPicturesList();
     this.isActiveCloseBtn = false;
-    this.picturesListMarkup();
+    this.isActiveRemoveBtn = false;
+
     this.emit('querySearch', value);
   }
 
@@ -346,7 +345,6 @@ export default class View extends EventEmitter {
     target
   }) {
     console.log(target);
-    // target.closest('.pictures__list').setAttribute('listener ', 'true');
     const imageId = target.closest('.list__item');
     this.emit('openModal', imageId.dataset.id);
   }
@@ -354,8 +352,9 @@ export default class View extends EventEmitter {
   handleOpenFavorite (evt) {
     evt.preventDefault();
     console.log('open favorite');
-
-    this.isActiveCloseBtn = true;
+    this.resetFavoriteView();
+    this.resetPicturesList();
+    this.isActiveRemoveBtn = true;
     this.emit('openFavorite');
   }
 
@@ -368,20 +367,21 @@ export default class View extends EventEmitter {
 
   handleAddToFavorite (evt) {
     evt.preventDefault();
-    console.log(evt);
+    console.log('handle add fav: ', evt.target.parentElement);
     evt.target.parentElement.classList.add('active-fav');
     const id = evt.target.closest('.modal__wrap');
     this.emit('addToFavorite', id.dataset.id);
   }
 
+  handleLoadMore (evt) {
+    evt.preventDefault(evt);
+
+    console.log('push loadMore');
+    this.emit('loadMore');
+  }
+
   resetPictures () {
-    console.log('reset Pictures');
-    // this.pictures.innerHTML = '';
-    if (this.pictures.hasChildNodes(this.picturesList)) {
-      console.log('if work');
-      // this.picturesList.removeEventListener('click', this.handleClickOnPicture());
-      // this.pictures.removeChild(this.picturesList);
-    }
+    this.pictures.innerHTML = '';
   }
 
   resetPicturesList () {

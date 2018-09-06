@@ -27,3 +27,8 @@ export const getPhoto = async (id) => {
   const response = await axios.get(DIRECTORY.PHOTO_URL + id);
   return response;
 };
+
+export const nextPage = async (url) => {
+  const response = await axios.get(url);
+  return response.data;
+};
