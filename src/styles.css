@@ -5,7 +5,6 @@ html {
 body {
   background-color: #ffffff;
   padding-top: 250px;
-  padding-bottom: 50px;
 }
 
 .active {
@@ -246,12 +245,7 @@ a {
 }
 
 .modal__wrap {
-  max-width: 1000px;
-  max-height: 800px;
-  min-width: 320px;
-  min-height: 400px;
-  background-color: #fff;
-  box-shadow: 0 0 5px rgb(122, 122, 122);
+  max-width: 500px;
 }
 
 .modal__image {
@@ -267,6 +261,7 @@ a {
   justify-content: space-around;
   align-items: center;
   border-radius: 20px;
+  margin-top: 20px;
 }
 
 .icon {
@@ -321,11 +316,14 @@ a {
 
 .modal {
   margin: auto;
-  width: 500px;
-  height: 300px;
-  background-color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
   border-radius: 2px;
   padding: 8px;
   box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2),
     0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
+}
+
+.picture__image {
+  width: 100%;
+  height: 430px;
 }
