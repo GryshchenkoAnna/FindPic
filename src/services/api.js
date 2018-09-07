@@ -19,11 +19,16 @@ axios.defaults.headers.common['Authorization'] = API_KEY;
 
 export const getByName = async (query) => {
   const response = await axios.get(DIRECTORY.SEARCH_URL + query + CONFIG.PER_PAGE);
-  console.log(response);
+
   return response.data;
 };
 
 export const getPhoto = async (id) => {
   const response = await axios.get(DIRECTORY.PHOTO_URL + id);
   return response;
+};
+
+export const nextPage = async (url) => {
+  const response = await axios.get(url);
+  return response.data;
 };

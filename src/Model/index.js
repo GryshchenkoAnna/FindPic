@@ -1,25 +1,88 @@
 export default class Model {
-  constructor (favoritePictures = []) {
-    this.favoritePictures = favoritePictures;
+  constructor (favorite = [], pictures = {
+    searchValue: null,
+    photos: [],
+    next_page: null,
+    total_results: 0
+  }) {
+    this.pictures = pictures;
+    this.searchValue = null;
+    this.favoritePictures = favorite;
   }
 
   init (data) {
-    // data.reverse();
-    if (this.favoritePictures.length === 0) return this.favoritePictures;
-    this.favoritePictures.push(...data);
-    return this.favoritePictures;
+    if (data) this.favoritePictures = data;
   }
 
-  isHaveInBookmarks (value) {
-    const findBookmark = this.favoritePictures.find(
-      picture => picture.userValue === value
-    );
-    return findBookmark;
+  openFavorite (data) {
+    console.log('open fav income local: ', data);
+
+    if (!data) return [];
+    this.favoritePictures = data;
+    return data;
   }
 
-  viewFetchedPictures (data) {
-    // localStorage('favoritePictures', this.favoritePictures);
-    console.log('in Model: ', data);
+  getNextPage () {
+    return this.pictures.next_page;
+  }
+
+  loadMorePictures (data) {
+    this.pictures.next_page = data.next_page;
+
+    const prevStatePhotos = this.pictures.photos;
+
+    this.pictures.photos = [...prevStatePhotos, ...data.photos];
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(data.photos);
+      }, 200);
+    });
+  }
+
+  viewFetchedPictures (data, searchValue) {
+    this.pictures.searchValue = searchValue;
+
+    this.pictures.photos = [];
+
+    const prevStatePhotos = this.pictures.photos;
+
+    this.pictures.next_page = data.next_page ? data.next_page : null;
+    this.pictures.total_results = data.total_results;
+
+    this.pictures.photos = [...data.photos, ...prevStatePhotos];
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(data);
+      }, 200);
+    });
+  }
+
+  modalData (id) {
+    const findPhoto = this.pictures.photos.find(obj => obj.id === Number(id));
+    return findPhoto;
+  }
+
+  addToFavorite (id) {
+    const haveIdInFav = this.favoritePictures.find(obj => obj.id === Number(id));
+    if (!haveIdInFav) {
+      const findPhoto = this.pictures.photos.find(obj => obj.id === Number(id));
+      const prevStateFavPic = this.favoritePictures;
+      this.favoritePictures = [...prevStateFavPic, findPhoto];
+      return this.favoritePictures;
+    }
+    return null;
+  }
+
+  checkIdInFavorite (id) {
+    console.log(this.favoritePictures);
+    const findId = this.favoritePictures.find(obj => obj.id === Number(id));
+    console.log('result in model checkId: ', !!findId);
+    return !!findId;
+  }
+
+  getOnePictures (data) {
     return new Promise(resolve => {
       setTimeout(() => {
         resolve(data);

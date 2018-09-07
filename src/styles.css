@@ -4,6 +4,11 @@ html {
 
 body {
   background-color: #ffffff;
+  padding-top: 250px;
+  padding-bottom: 50px;
+}
+
+.active {
   padding-top: 50px;
 }
 
@@ -22,7 +27,7 @@ img {
 }
 
 button {
-  background-color: #fff;
+  background-color: transparent;
   border: none;
   outline: none;
   cursor: pointer;
@@ -84,7 +89,7 @@ a {
   top: 4%;
   right: 12%;
   font-size: 16px;
-  font-family: "Roboto";
+  font-family: 'Roboto';
   color: rgb(103, 58, 183);
   line-height: 1.688;
   text-align: right;
@@ -95,30 +100,28 @@ a {
 }
 
 .button-favorits::before {
-  content: "\2605";
+  content: '\2605';
   font-size: 20px;
   margin-right: 4px;
+}
+
+.content {
+  width: 100vw;
+  height: 100%;
+  position: relative;
 }
 
 /* Styled for Pictures List */
 .pictures {
   margin: auto;
   max-width: 1000px;
-}
-
-.favorite__title {
-  margin: 0;
-  font-size: 16px;
-  font-family: "Roboto";
-  font-weight: 400;
-  color: rgb(103, 58, 183);
-  line-height: 1.688;
-  text-align: left;
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .pictures__list {
   margin: 0;
+  margin-bottom: 20px;
   padding: 0;
   list-style: none;
   display: grid;
@@ -174,6 +177,9 @@ a {
   font-size: 10px;
   text-align: center;
   z-index: 10;
+  background-color: transparent;
+  color: #fff;
+  cursor: pointer;
 }
 
 .card__btn:hover {
@@ -181,10 +187,21 @@ a {
   border-radius: 50%;
 }
 
-.btn-close {
-  background-color: transparent;
+.pictures__load {}
+
+.button-load-more {
+  display: block;
+  margin: auto;
+  border-radius: 20px;
+  padding: 8px 20px;
+  text-transform: uppercase;
+  background-color: rgb(148, 179, 63);
   color: #fff;
-  cursor: pointer;
+}
+
+.button-load-more:hover {
+  background-color: rgb(32, 145, 88);
+  box-shadow: 0px 17px 10px -10px rgba(0, 0, 0, 0.4);
 }
 
 .not-found {
@@ -192,6 +209,101 @@ a {
   margin-top: 100px;
   margin-bottom: 100px;
   text-align: center;
+  grid-column: 1 / 5;
+  grid-row: 1 / 4;
+}
+
+.favorite {
+  margin: auto;
+  max-width: 1000px;
+}
+
+.favorite__title {
+  margin: 0;
+  font-size: 16px;
+  font-family: 'Roboto';
+  font-weight: 400;
+  color: rgb(103, 58, 183);
+  line-height: 1.688;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal__overlay {
+  background-color: rgba(192, 192, 192, 0.377);
+  z-index: 10;
+}
+
+.modal__wrap {
+  max-width: 1000px;
+  max-height: 800px;
+  min-width: 320px;
+  min-height: 400px;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgb(122, 122, 122);
+}
+
+.modal__image {
+  z-index: 15;
+}
+
+.modal__control {
+  margin: auto;
+  background-color: #673ab7;
+  width: 114px;
+  height: 34px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 20px;
+}
+
+.icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  stroke-width: 0;
+  stroke: #fff;
+  fill: #fff;
+  border-radius: 50%;
+}
+
+.btn-prev:active {
+  color: #cddc39;
+  fill: #cddc39;
+  box-shadow: inset 0 0 4px #fff;
+}
+
+.btn-next:active {
+  color: #cddc39;
+  fill: #cddc39;
+  box-shadow: inset 0 0 4px #fff;
+}
+
+.btn-close:active {
+  color: #cddc39;
+  fill: #cddc39;
+  box-shadow: inset 0 0 4px #fff;
+}
+
+.btn-fav:active {
+  box-shadow: inset 0 0 4px #fff;
+}
+
+.active-fav {
+  color: #cddc39;
+  fill: #cddc39;
 }
 
 .backdrop {
