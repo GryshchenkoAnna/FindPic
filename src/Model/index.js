@@ -14,9 +14,31 @@ export default class Model {
     if (data) this.favoritePictures = data;
   }
 
-  openFavorite (data) {
-    console.log('open fav income local: ', data);
+  openNextPicture (id) {
+    const picturesLength = this.pictures.photos.length - 1;
 
+    const indexCorectPicture = this.pictures.photos.findIndex(picture =>
+      picture.id === Number(id)
+    );
+
+    return picturesLength === indexCorectPicture
+      ? this.pictures.photos[0]
+      : this.pictures.photos[indexCorectPicture + 1];
+  }
+
+  openPrevPicture (id) {
+    const picturesLength = this.pictures.photos.length - 1;
+
+    const indexCorectPicture = this.pictures.photos.findIndex(picture =>
+      picture.id === Number(id)
+    );
+
+    return indexCorectPicture === 0
+      ? this.pictures.photos[picturesLength]
+      : this.pictures.photos[indexCorectPicture - 1];
+  }
+
+  openFavorite (data) {
     if (!data) return [];
     this.favoritePictures = data;
     return data;
@@ -76,9 +98,8 @@ export default class Model {
   }
 
   checkIdInFavorite (id) {
-    console.log(this.favoritePictures);
     const findId = this.favoritePictures.find(obj => obj.id === Number(id));
-    console.log('result in model checkId: ', !!findId);
+
     return !!findId;
   }
 
@@ -90,8 +111,11 @@ export default class Model {
     });
   }
 
-  removeBookmark (id, localStorage) {
-    this.favoritePictures = this.favoritePictures.filter(bookmark => bookmark.id !== id);
-    localStorage('favoritePictures', this.favoritePictures);
+  removeFavoritePicture (id) {
+    this.favoritePictures = this.favoritePictures.filter(picture =>
+      picture.id !== Number(id)
+    );
+
+    return this.favoritePictures;
   }
 }
