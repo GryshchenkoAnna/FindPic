@@ -1,6 +1,6 @@
 import EventEmitter from '../services/event-emitter';
 import Button from '../Components/shared-ui/button';
-import Icon from '../Components/shared-ui/icon.js';
+import Icon from '../Components/shared-ui/icon';
 
 export default class View extends EventEmitter {
   constructor () {
