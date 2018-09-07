@@ -9,6 +9,7 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --open --mode development",
+    "hot": "webpack-dev-server --hotOnly --open --mode development",
     "build": "webpack --mode=production",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
@@ -28,6 +29,7 @@
     "eslint": "^5.4.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-prettier": "^2.6.2",
+    "extends-classes": "^1.0.5",
     "extract-text-webpack-plugin": "^3.0.2",
     "firebase": "^5.4.1",
     "gh-pages": "^1.2.0",
@@ -37,6 +39,7 @@
     "normalize.css": "^8.0.0",
     "pexels-api-wrapper": "^1.1.1",
     "postcss-loader": "^3.0.0",
+    "postcss-scss": "^2.0.0",
     "prettier": "^1.14.2",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.0",
