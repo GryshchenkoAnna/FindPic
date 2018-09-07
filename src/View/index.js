@@ -1,6 +1,7 @@
 import EventEmitter from '../services/event-emitter';
 import Button from '../Components/shared-ui/button';
 import Icon from '../Components/shared-ui/icon';
+import logo from '../Components/image/logo.png';
 
 export default class View extends EventEmitter {
   constructor () {
@@ -28,7 +29,7 @@ export default class View extends EventEmitter {
   }
 
   viewFetchedPictures (pictures) {
-    this.root.parentNode.classList.add('active');
+    this.header.classList.add('active');
 
     if (this.content.contains(this.favWrap)) {
       this.content.removeChild(this.favWrap);
@@ -107,7 +108,7 @@ export default class View extends EventEmitter {
     logoTitle.classList.add('logo__title');
     // Create Header logo image
     const logoImage = document.createElement('img');
-    logoImage.src = '../img/logo.png';
+    logoImage.src = logo;
     logoImage.classList.add('logo__image');
     logoImage.alt = 'FindPic Logo';
 
@@ -204,7 +205,7 @@ export default class View extends EventEmitter {
   }
 
   openFavorite (data) {
-    this.root.parentNode.classList.add('active');
+    this.header.classList.add('active');
 
     if (this.content.hasChildNodes(this.pictures)) {
       this.content.removeChild(this.pictures);
