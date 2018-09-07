@@ -1,0 +1,8 @@
+{
+  "eslint.autoFixOnSave": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.packageManager": "yarn",
+  "eslint.run": "onSave",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": false
+}
