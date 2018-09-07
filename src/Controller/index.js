@@ -18,6 +18,8 @@ export default class Controller {
     view.on('addToFavorite', id => this.addToFavorite(id));
     view.on('checkIdHaveInFavorite', id => this.checkIdHaveInFavorite(id));
     view.on('loadMore', this.loadMorePictures.bind(this));
+    view.on('openPrevPicture', id => this.openPrevPicture(id));
+    view.on('openNextPicture', id => this.openNextPicture(id));
   }
 
   initApp () {
@@ -25,6 +27,14 @@ export default class Controller {
     this.view.mainMarkup();
     // if (getLocalStorage === null) return;
     // this.view.init(this.model.init(getLocalStorage('favoritePictures')));
+  }
+
+  openNextPicture (id) {
+    this.view.openNextPicture(this.model.openNextPicture(id));
+  }
+
+  openPrevPicture (id) {
+    this.view.openPrevPicture(this.model.openPrevPicture(id));
   }
 
   addToFavorite (id) {
@@ -36,7 +46,9 @@ export default class Controller {
   }
 
   checkIdHaveInFavorite (id) {
-    this.view.resultCheckIdInFavorite(this.model.checkIdInFavorite(id));
+    this.view.resultCheckIdInFavorite(
+      this.model.checkIdInFavorite(id)
+    );
   }
 
   openModal (id) {
@@ -44,8 +56,9 @@ export default class Controller {
   }
 
   openFavorite () {
-    console.log(getLocalStorage('favorite'));
-    this.view.openFavorite(this.model.openFavorite(getLocalStorage('favorite')));
+    this.view.openFavorite(
+      this.model.openFavorite(getLocalStorage('favorite'))
+    );
   }
 
   viewPictures (value) {
@@ -56,6 +69,7 @@ export default class Controller {
 
   loadMorePictures () {
     const url = this.model.getNextPage();
+
     pexels.nextPage(url)
       .then(data => this.model.loadMorePictures(data))
       .then(resolve => this.view.loadMorePictures(resolve));
@@ -67,8 +81,9 @@ export default class Controller {
       .then(resolve => this.view.modalPicture(resolve));
   }
 
-  removePicture (id) {
-    this.model.removeFavoritePicture(id, setLocalStorage);
-    this.view.removeFavoritePicture(id);
+  removeFavoritePicture (id) {
+    setLocalStorage('favorite', this.model.removeFavoritePicture(id));
+
+    this.view.removePictureFromFavorite(id);
   }
 }
