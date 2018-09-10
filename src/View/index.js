@@ -30,6 +30,7 @@ export default class View extends EventEmitter {
 
   viewFetchedPictures (pictures) {
     this.header.classList.add('active');
+    this.header.firstChild.classList.add('container--active');
 
     if (this.content.contains(this.favWrap)) {
       this.content.removeChild(this.favWrap);
@@ -143,9 +144,14 @@ export default class View extends EventEmitter {
     this.form.insertAdjacentElement('afterbegin', this.input);
     this.form.insertAdjacentElement('beforeend', searchButton);
 
-    this.header.insertAdjacentElement('afterbegin', logoLink);
-    this.header.insertAdjacentElement('beforeend', this.form);
-    this.header.insertAdjacentElement('beforeend', favoriteButton);
+    const container = document.createElement('div');
+    container.classList.add('container');
+
+    container.insertAdjacentElement('afterbegin', logoLink);
+    container.insertAdjacentElement('beforeend', this.form);
+    container.insertAdjacentElement('beforeend', favoriteButton);
+
+    this.header.insertAdjacentElement('afterbegin', container);
 
     const favoriteBtnListener = this.header.querySelector(
       '[name="open-favorite"]'
@@ -206,6 +212,7 @@ export default class View extends EventEmitter {
 
   openFavorite (data) {
     this.header.classList.add('active');
+    this.header.firstChild.classList.add('container--active');
 
     if (this.content.hasChildNodes(this.pictures)) {
       this.content.removeChild(this.pictures);
